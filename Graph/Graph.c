@@ -8,13 +8,14 @@ GraphNode* createGNode(Node* node, double weigh) {
     return gNode;
 }
 
-GraphNode* addGNode(Node* node, Node* toAdd) {
+GraphNode* addGNode(Node* node, Node* toAdd, int weight) {
     if (!node || !toAdd) {
         throwError("Error with adding nodes!");
         return NULL;
     }
 
-    double weight = getWeight(node, toAdd);
+//    double weight = getWeight(node, toAdd);
+
     GraphNode* gNode = node->list;
 
     if (!gNode) {
@@ -150,7 +151,7 @@ int findIndexOfVert(Graph* graph, char* name) {
     return -1;
 }
 
-GraphNode* addEdge(Graph* graph, char* out, char* in) {
+GraphNode* addEdge(Graph* graph, char* out, char* in, int weight) {
     Node* nodeOut = findVert(graph, out);
     if (!nodeOut) {
         throwError("There is no node with OUT name!");
@@ -171,7 +172,7 @@ GraphNode* addEdge(Graph* graph, char* out, char* in) {
         return NULL;
     }
 
-    gNode = addGNode(nodeOut, nodeIn);
+    gNode = addGNode(nodeOut, nodeIn, weight);
 
 
     return gNode;
@@ -373,4 +374,11 @@ int minDistance(int V, double* dist, bool* sptSet)
     }
 
     return min_index;
+}
+
+int findIndexOfNode(Graph *graph, char *name) {
+    for (int i = 0; i < graph->count; i++)
+        if (!strcpy(graph->adjList[i].info->name, name))
+            return i;
+    return -1;
 }

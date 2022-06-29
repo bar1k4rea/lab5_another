@@ -64,6 +64,10 @@ void menu() {
                 dijkstraAlg(graph);
                 break;
             }
+            case 9: {
+                topologicalSorting(graph);
+                break;
+            }
             default: {
                 deleteGraph(graph);
                 option = 0;
@@ -144,8 +148,10 @@ void addNewEdge(Graph* graph) {
     char* out = getStr();
     printf("Enter name of the vertex for IN node: ");
     char* in = getStr();
+    printf("Enter the edge weight: ");
+    int weight = getInt(0, 100);
 
-    if ( addEdge(graph, out, in) && addEdge(graph, in, out))
+    if ( addEdge(graph, out, in, weight) && addEdge(graph, in, out, weight))
         success();
 
     free(out);
@@ -309,4 +315,54 @@ void dijkstraAlg(Graph* graph) {
     }
 }
 
+void topologicalSorting(Graph *graph) {
+    int i, j, signal = 0, counter = 0;
+    int colors[graph->count];
+    int sort[graph->count];
+
+    for (i = 0; i < graph->count; i++) {
+        colors[i] = 0;
+        sort[i] = -1;
+    }
+    for (i = 0; i < graph->count; i++)
+        if (colors[i] == 0)
+            checkTopSort(graph, colors, i, sort, &signal, &counter);
+
+    if (signal)
+        printf("ERROR! There is a cycle in the graph.\n");
+    else {
+        for (i = graph->count - 1; i > -1; i--) {
+            printf("%s ", graph->adjList[sort[i]].info->name);
+        }
+        printf("\n");
+    }
+}
+
+void checkTopSort(Graph *graph, int *colors, int current_index, int *sort, int *signal, int *counter) {
+    int name, new;
+    Node *node;
+    GraphNode *gNode;
+
+    colors[current_index] = 1;
+    node = &graph->adjList[current_index];
+    gNode = node->list;
+    if (gNode != NULL) {
+//        node->list = node->list->next;
+        new = findIndexOfNode(graph, gNode->node->info->name);
+        if (colors[new] == 1)
+            *signal = 1;
+        while (node->list) {
+            new = findIndexOfNode(graph, node->info->name);
+            if (colors[new] == 0)
+                checkTopSort(graph, colors, new, sort, &(*signal), &(*counter));
+            node->list = node->list->next;
+        }
+        new = findIndexOfNode(graph, node->info->name);
+        if (colors[new] == 0)
+            checkTopSort(graph, colors, new, sort, &(*signal), &(*counter));
+    }
+    colors[current_index] = 2;
+    sort[*counter] = current_index;
+    *counter += 1;
+}
 

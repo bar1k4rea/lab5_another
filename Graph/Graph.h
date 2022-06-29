@@ -43,7 +43,7 @@ Node* addVert(Graph* graph, Info* info);
 //  Поиск вершины в графе. Сложность O(N)
 Node* findVert(Graph* graph, char* name);
 //  Добавление вершины в граф. Сложность O(N)
-GraphNode* addEdge(Graph* graph, char* out, char* in);
+GraphNode* addEdge(Graph* graph, char* out, char* in, int weight);
 //  Удаление вершины в графе. Сложность O(N^2)
 Node* removeVert(Graph* graph, char* name);
 //  Удаление ребра в графе. Сложность O(N)
@@ -67,13 +67,15 @@ Info* createInfo(char* name, int x, int y);
 //  Создаёт узел списка смежности. Выделяет память
 GraphNode* createGNode(Node* node, double weigh);
 //  Добавляет новый элемент в список смежности
-GraphNode* addGNode(Node* node, Node* toAdd);
+GraphNode* addGNode(Node* node, Node* toAdd, int weight);
 //  Удаляет элемент из списка смежности
 Node* removeGNode(Node* node, Node* toDel);
 //  Поиск элемента в списке смежности
 GraphNode* findGNode(Node* node, Node* toFind);
 //  Выделяется память под пустой граф
 Graph* createGraph();
+
+int findIndexOfNode(Graph *graph, char *name);
 
 #include "../Queue/Queue.h"
 #endif

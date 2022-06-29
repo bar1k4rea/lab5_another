@@ -20,6 +20,7 @@
                     "6. Remove edge\n"              \
                     "7. Breadth first search\n"     \
                     "8. Dijkstra\n"                 \
+                    "9. Topological sorting\n"      \
                     "0. exit\n"                     \
 
 
@@ -46,26 +47,16 @@ void removeVertex(Graph* graph);
 void removeEdge(Graph* graph);
 //  Удаление всего графа
 void deleteGraph(Graph* graph);
-//  Обёртка. Чтение графа из файла
-void readGraph(Graph** graph);
-//  Обёртка. Записать граф в файл
-void writeGraph(Graph* graph);
 //  Обёртка. Поиск в ширину
 void startBFS(Graph* graph);
 //  Обёртка. Дейкстра
 void dijkstraAlg(Graph* graph);
-//  Обёртка. Форд-Фалкерсон
-void flowNetwork(Graph* graph);
-//  Обёртка. Генерация рандомного графа
-void randomGraph(Graph** graph);
-//  Таймирование
-void timing();
-// MST algo
-void applyMST(Graph *graph);
 
-//  Чтение графа из файла
-Graph* readFromFile(char* path);
-//  Запись графа в файл
-Graph* writeToFile(Graph* graph, char* path);
+// Обёртка. Топологическая сортировка
+void topologicalSorting(Graph *graph);
+
+void checkTopSort(Graph *graph, int *colors, int current_index, int *sort, int *signal, int *counter);
+
+
 
 #endif
